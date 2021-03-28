@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.nota.nota_android_gs25.communication.serial.common.ConnectionStatus"/>
+        <variable
+            name="mainViewModel"
+            type="com.nota.nota_android_gs25.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/base_layout">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/view_finder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <VideoView
+            android:id="@+id/advertisement_vid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:visibility="@{mainViewModel.displayAd ? View.VISIBLE : View.GONE}"/>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id='@+id/main_toolbar'
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            bind:connection_status="@{mainViewModel.serialDeviceConnection}"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{mainViewModel.isDebugMode ? View.VISIBLE : View.GONE}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/refresh_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="REFRESH"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    app:serial_status="@{mainViewModel.serialDeviceConnection}"
+                    app:layout_constraintRight_toLeftOf="@id/device_info"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id='@+id/device_info'
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    app:serial_device="@{mainViewModel.serialDevice}"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            bind:auth_log_acc="@{mainViewModel.authResult}"
+            bind:auth_log_score="@{mainViewModel.authScore}"
+            android:visibility="@{mainViewModel.isDebugMode ? View.INVISIBLE : View.VISIBLE}" />
+
+        <include
+            layout="@layout/anim_layout"
+            android:visibility="@{mainViewModel.displayAd ? View.INVISIBLE : View.VISIBLE}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include
+            layout="@layout/auth_layout"
+            bind:vm = "@{mainViewModel}"
+            android:visibility="@{mainViewModel.displayAuth ? View.VISIBLE : View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

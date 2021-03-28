@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SMART BILLBOARD</string>
+    <string name="repetitive_permission_request_denied">Permission denied. User is required to grant permission from the Device Setting(App Info)</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
